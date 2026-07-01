@@ -1,0 +1,30 @@
+.box{
+    height: 400px;
+    width: 200px;
+    padding:20px;
+     display: inline-block;
+    border : 5px solid black;
+    text-align: center;
+    flex-direction:reverse;
+    display: flex;
+    justify-content: flex-start;
+
+
+
+}
+.box img{
+    width: 150px;
+    height: 300px;
+    object-fit: contain;
+    padding: 0%;
+    margin: 0%;
+    
+}
+.box h1{
+    margin: 0%;
+    padding: 0%;
+
+}
+.flex{
+    flex-direction: row-reverse;
+}

@@ -1,0 +1,4 @@
+01/07
+box model
+content padding border
+1 inch = 2.54 cm = 96px
