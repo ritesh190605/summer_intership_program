@@ -1,0 +1,50 @@
+<!-- Using Flexbox, write HTML & CSS to align three cards horizontally with equal spacing. -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flexbox Cards</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 50px;
+        }
+
+        .card {
+            width: 200px;
+            padding: 20px;
+            border: 1px solid black;
+            background-color: lightgray;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="card">
+            <h3>Card 1</h3>
+            <p>This is the first card.</p>
+        </div>
+
+        <div class="card">
+            <h3>Card 2</h3>
+            <p>This is the second card.</p>
+        </div>
+
+        <div class="card">
+            <h3>Card 3</h3>
+            <p>This is the third card.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

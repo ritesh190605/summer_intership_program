@@ -1,0 +1,74 @@
+<!-- Design a registration form containing Name, Email, Password, Gender, Skills (Checkbox), Country (Dropdown), and Submit button. -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        form {
+            width: 300px;
+            margin: auto;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .radio, .check {
+            width: auto;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h2 align="center">Registration Form</h2>
+
+<form>
+
+    Name:<br>
+    <input type="text" placeholder="Enter your name"><br>
+
+    Email:<br>
+    <input type="email" placeholder="Enter your email"><br>
+
+    Password:<br>
+    <input type="password" placeholder="Enter password"><br>
+
+    Gender:<br>
+    <input type="radio" name="gender" class="radio"> Male
+    <input type="radio" name="gender" class="radio"> Female
+    <br><br>
+
+    Skills:<br>
+    <input type="checkbox" class="check"> HTML
+    <input type="checkbox" class="check"> CSS
+    <input type="checkbox" class="check"> JavaScript
+    <br><br>
+
+    Country:<br>
+    <select>
+        <option>India</option>
+        <option>USA</option>
+        <option>UK</option>
+        <option>Canada</option>
+    </select>
+    <br>
+
+    <input type="submit" value="Submit">
+
+</form>
+
+</body>
+</html>
