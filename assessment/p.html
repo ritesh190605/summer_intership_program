@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priyanshu Kumar | Interactive 3D Portfolio</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        :root {
+            --bg-color: #0b0f19;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary-glow: #38bdf8;
+            --secondary-glow: #a855f7;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            perspective: 1000px; 
+        }
+        .cursor-glow {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .bg-mesh {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+            top: 20%;
+            left: 10%;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: float 8s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+        .hero {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-10deg) translateZ(-50px);
+            opacity: 0;
+            animation: intro3D 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 
+                        0 0 50px rgba(56, 189, 248, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        .hero:hover {
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                        0 0 40px rgba(56, 189, 248, 0.15),
+                        0 0 80px rgba(168, 85, 247, 0.1);
+        }
+        .hero-content {
+            flex: 1;
+            transform-style: preserve-3d;
+        }
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2),
+                         0 0 20px rgba(56, 189, 248, 0.2);
+            transform: translateZ(40px); 
+        }
+        .hero-content h1 span {
+            color: var(--primary-glow);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+        }
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            transform: translateZ(25px);
+        }
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+            transform: translateZ(35px);
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background-color: var(--primary-glow);
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+        .btn-primary:hover {
+            background-color: #7dd3fc;
+            box-shadow: 0 0 25px var(--primary-glow), 0 5px 15px rgba(56, 189, 248, 0.4);
+            transform: translateY(-3px);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--secondary-glow);
+            box-shadow: inset 0 0 0 rgba(168, 85, 247, 0), 0 0 10px rgba(168, 85, 247, 0.2);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(168, 85, 247, 0.1);
+            box-shadow: 0 0 25px var(--secondary-glow), inset 0 0 10px rgba(168, 85, 247, 0.4);
+            transform: translateY(-3px);
+            text-shadow: 0 0 8px #fff;
+        }
+        .hero-image-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            transform-style: preserve-3d;
+            perspective: 800px;
+        }
+        .hero-image {
+            width: 100%;
+            max-width: 380px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform: translateZ(50px);
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(168, 85, 247, 0.1);
+        }
+        .hero-image-wrapper:hover .hero-image {
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7),
+                        0 0 40px rgba(56, 189, 248, 0.3);
+        }
+        @keyframes intro3D {
+            to {
+                transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+                opacity: 1;
+            }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-30px) scale(1.1); }
+        }
+        @media (max-width: 768px) {
+            body { padding: 2rem 0; }
+            .hero { flex-direction: column-reverse; text-align: center; gap: 2.5rem; padding: 2rem 1.5rem; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .btn-group { justify-content: center; flex-direction: column; width: 100%; gap: 0.8rem; }
+            .cta-btn { width: 100%; text-align: center; }
+            .cursor-glow { display: none; } /* Disable custom cursor element on touch devices */
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-mesh"></div>
+    <div class="cursor-glow" id="mouseGlow"></div>
+    <main class="hero" id="interactiveCard">
+        <div class="hero-content">
+            <h1>Hi, I'm <span>Priyanshu Kumar</span></h1>
+            <p>An upcoming software developer passionate about building resilient, high-performance web applications. Inspired by elements of persistence and endurance under pressure, I approach programming architecture with structural focus, absolute adaptability, and clean design patterns.</p> 
+            <div class="btn-group">
+                <a href="#projects" class="cta-btn btn-primary">View My Work</a>
+                <a href="#contact" class="cta-btn btn-secondary">Hire Me</a>
+            </div>
+        </div>
+        <div class="hero-image-wrapper" id="imagePerspectiveFrame">
+            <img 
+                src="https://in.pinterest.com/pin/238409374019064231/" 
+                alt="Illustration of a fallen knight in a flower field on his knees with arrows in his chest" 
+                class="hero-image"
+                id="tiltTargetImage"
+            >
+        </div>
+    </main>
+    <script>
+        const mouseGlow = document.getElementById('mouseGlow');
+        const card = document.getElementById('interactiveCard');
+        const imageFrame = document.getElementById('imagePerspectiveFrame');
+        const targetImg = document.getElementById('tiltTargetImage');
+        window.addEventListener('mousemove', (e) => {
+            mouseGlow.style.left = e.clientX + 'px';
+            mouseGlow.style.top = e.clientY + 'px';
+        });
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - (rect.width / 2);
+            const y = e.clientY - rect.top - (rect.height / 2);
+            const factorX = y / (rect.height / 2) * -10; 
+            const factorY = x / (rect.width / 2) * 10;
+            card.style.transform = `rotateX(${factorX}deg) rotateY(${factorY}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `rotateX(0deg) rotateY(0deg)`;
+            card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+        });    
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'none';
+        });
+        imageFrame.addEventListener('mousemove', (e) => {
+            const imgRect = imageFrame.getBoundingClientRect();
+            const imgX = e.clientX - imgRect.left - (imgRect.width / 2);
+            const imgY = e.clientY - imgRect.top - (imgRect.height / 2);
+            const tiltX = (imgY / (imgRect.height / 2)) * -20;
+            const tiltY = (imgX / (imgRect.width / 2)) * 20;  
+            targetImg.style.transform = `translateZ(70px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
+        imageFrame.addEventListener('mouseleave', () => {
+            targetImg.style.transform = `translateZ(50px) rotateX(0deg) rotateY(0deg)`;
+            targetImg.style.transition = 'transform 0.4s ease';
+        });
+        imageFrame.addEventListener('mouseenter', () => {
+            targetImg.style.transition = 'none';
+        });
+    </script>
+</body>
+</html>
