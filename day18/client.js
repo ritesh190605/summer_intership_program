@@ -4,5 +4,5 @@ function balance(){
 }
 
 function withdraw(cash){
-    balance =
+    balance = 25000-cash
 }
